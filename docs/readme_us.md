@@ -11,14 +11,14 @@
 </p>
 
 <p align="center">
-  <a href="../README.md">🇧🇷 Ler em Português</a>
+  <a href="../README.md"> Ler em Português</a>
 </p>
 
 </div>
 
 ---
 
-## 📋 Summary
+## Summary
 
 This project consists of the implementation of a parser capable of validating mathematical expressions from lexical and syntactic perspectives. Developed strictly under the functional paradigm using the Haskell language, the system verifies the adherence of an input string to a pre-defined Context-Free Grammar (CFG), supporting fundamental arithmetic operations, real numbers, and precedence via parentheses.
 
@@ -26,7 +26,7 @@ The project also utilized prototyping in Python (via the NLTK library) for prior
 
 ---
 
-## 🎯 Objectives
+## Objectives
 
 1.  **Functional Paradigm Application:** Utilize resources such as immutability, recursion, pattern matching, and higher-order functions to solve the parsing problem.
 2.  **Formal Modeling:** Implement language recognition based on formal production rules.
@@ -34,7 +34,7 @@ The project also utilized prototyping in Python (via the NLTK library) for prior
 
 ---
 
-## 🛠️ Technical Specification
+## Technical Specification
 
 The validation process is divided into two sequential stages:
 
@@ -50,7 +50,7 @@ Responsible for structural validation. The system checks if the chain of tokens 
 
 ---
 
-## 🚀 Supported Features
+## Supported Features
 
 The analyzer correctly processes the following structures:
 
@@ -61,7 +61,7 @@ The analyzer correctly processes the following structures:
 
 ---
 
-## 🧪 Test Cases and Validation
+## Test Cases and Validation
 
 Below is the test matrix used to validate the analyzer's robustness, comparing expected inputs with the algorithm's result.
 
@@ -77,7 +77,7 @@ Below is the test matrix used to validate the analyzer's robustness, comparing e
 
 ---
 
-## 💻 Execution Instructions
+## Execution Instructions
 
 ### Prerequisites
 
@@ -109,7 +109,7 @@ To execute this project, you must have the Haskell environment configured on you
 
 ---
 
-## 📚 Academic Context
+## Academic Context
 
 This project is part of the assessment for the Programming Language Paradigms course, taught in the Computer Science program at the Federal University of Campina Grande (UFCG).
 

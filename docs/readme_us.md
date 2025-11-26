@@ -39,7 +39,7 @@ The project also utilized prototyping in Python (via the NLTK library) for prior
 The validation process is divided into two sequential stages:
 
 ### 1. Lexical Analysis (Scanning)
-Responsible for verifying the language's alphabet. The input is processed as a list of characters, where primitive tokens are identified and validated.
+Responsible for verifying the language's alphabet. The input is processed as a list of characters, where primitive tokens are identified and validated. White spaces are ignored during processing.
 
 * **Valid Alphabet:** Digits 0 to 9, decimal point (.), arithmetic operators (+, -, *, /, ^), and parentheses.
 

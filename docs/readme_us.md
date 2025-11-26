@@ -20,7 +20,7 @@
 
 ## 📋 Summary
 
-This project consists of the implementation of a parser capable of validating mathematical expressions from **lexical** and **syntactic** perspectives. Developed strictly under the **functional paradigm** using the **Haskell** language, the system verifies the adherence of an input string to a pre-defined Context-Free Grammar (CFG), supporting fundamental arithmetic operations, real numbers, and precedence via parentheses.
+This project consists of the implementation of a parser capable of validating mathematical expressions from lexical and syntactic perspectives. Developed strictly under the functional paradigm using the Haskell language, the system verifies the adherence of an input string to a pre-defined Context-Free Grammar (CFG), supporting fundamental arithmetic operations, real numbers, and precedence via parentheses.
 
 The project also utilized prototyping in Python (via the NLTK library) for prior validation of the absence of ambiguity in the proposed grammar.
 
@@ -67,13 +67,13 @@ Below is the test matrix used to validate the analyzer's robustness, comparing e
 
 | Input Expression | Result | Technical Justification |
 | :--- | :---: | :--- |
-| `1 + 2 * 3` | **Accepted** | Respects operator precedence. |
-| `(3 + 2) * 7` | **Accepted** | Correct use of parentheses for grouping. |
-| `12.3 + 4.56` | **Accepted** | Correct recognition of real literals. |
-| `5 ^ -2` | **Accepted** | Unary operator correctly applied in exponent. |
-| `5 ++ 5` | **Rejected** | **Syntactic Error:** Absence of operand between operators. |
-| `(5 * 2` | **Rejected** | **Syntactic Error:** Unbalanced parentheses. |
-| `1 + @` | **Rejected** | **Lexical Error:** Symbol does not belong to the valid alphabet. |
+| `1 + 2 * 3` | Accepted | Respects operator precedence. |
+| `(3 + 2) * 7` | Accepted | Correct use of parentheses for grouping. |
+| `12.3 + 4.56` | Accepted | Correct recognition of real literals. |
+| `5 ^ -2` | Accepted | Unary operator correctly applied in exponent. |
+| `5 ++ 5` | Rejected | **Syntactic Error:** Absence of operand between operators. |
+| `(5 * 2` | Rejected | **Syntactic Error:** Unbalanced parentheses. |
+| `1 + @` | Rejected | **Lexical Error:** Symbol does not belong to the valid alphabet. |
 
 ---
 
@@ -83,7 +83,7 @@ Below is the test matrix used to validate the analyzer's robustness, comparing e
 
 To execute this project, you must have the Haskell environment configured on your machine.
 
-* **GHC (Glasgow Haskell Compiler):** The standard compiler for Haskell. Usually installed via **GHCup**.
+* **GHC (Glasgow Haskell Compiler):** The standard compiler for Haskell. Usually installed via GHCup.
 
 ### Step-by-Step
 
@@ -111,7 +111,7 @@ To execute this project, you must have the Haskell environment configured on you
 
 ## 📚 Academic Context
 
-This project is part of the assessment for the **Programming Language Paradigms** course, taught in the Computer Science program at the Federal University of Campina Grande (UFCG).
+This project is part of the assessment for the Programming Language Paradigms course, taught in the Computer Science program at the Federal University of Campina Grande (UFCG).
 
 ### Authors
 

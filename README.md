@@ -9,7 +9,9 @@
 <p align="center">
   <b>Projeto desenvolvido para a disciplina de Paradigmas de Linguagens de Programação.</b>
 </p>
-
+<p align="center">
+  <a href="docs/readme_us.md">🇺🇸 Read in English</a>
+</p>
 </div>
 
 ---

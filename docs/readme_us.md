@@ -71,9 +71,9 @@ Below is the test matrix used to validate the analyzer's robustness, comparing e
 | `(3 + 2) * 7` | Accepted | Correct use of parentheses for grouping. |
 | `12.3 + 4.56` | Accepted | Correct recognition of real literals. |
 | `5 ^ -2` | Accepted | Unary operator correctly applied in exponent. |
-| `5 ++ 5` | Rejected | **Syntactic Error:** Absence of operand between operators. |
-| `(5 * 2` | Rejected | **Syntactic Error:** Unbalanced parentheses. |
-| `1 + @` | Rejected | **Lexical Error:** Symbol does not belong to the valid alphabet. |
+| `5 ++ 5` | Rejected | Syntactic Error: Absence of operand between operators. |
+| `(5 * 2` | Rejected | Syntactic Error: Unbalanced parentheses. |
+| `1 + @` | Rejected | Lexical Error: Symbol does not belong to the valid alphabet. |
 
 ---
 

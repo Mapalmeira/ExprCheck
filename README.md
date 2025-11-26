@@ -109,7 +109,7 @@ Para executar este projeto, é necessário ter o ambiente Haskell configurado na
 
 ## 📚 Contexto Acadêmico
 
-Este projeto integra a avaliação da disciplina de **Paradigmas de Linguagens de Programação**, lecionada no curso de Ciência da Computação da Universidade Federal de Campina Grande (UFCG).
+Este projeto integra a avaliação da disciplina de Paradigmas de Linguagens de Programação, lecionada no curso de Ciência da Computação da Universidade Federal de Campina Grande (UFCG).
 
 ### Autores
 

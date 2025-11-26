@@ -10,13 +10,13 @@
   <b>Projeto desenvolvido para a disciplina de Paradigmas de Linguagens de Programação.</b>
 </p>
 <p align="center">
-  <a href="docs/readme_us.md">🇺🇸 Read in English</a>
+  <a href="docs/readme_us.md"> Read in English</a>
 </p>
 </div>
 
 ---
 
-## 📋 Resumo
+## Resumo
 
 Este projeto consiste na implementação de um analisador capaz de validar expressões matemáticas sob as perspectivas léxica e sintática. Desenvolvido estritamente sob o paradigma funcional utilizando a linguagem Haskell, o sistema verifica a aderência de uma cadeia de entrada a uma Gramática Livre de Contexto (GLC) pré-definida, suportando operações aritméticas fundamentais, números reais e precedência por parênteses.
 
@@ -24,7 +24,7 @@ O projeto também utilizou prototipagem em Python (via biblioteca NLTK) para val
 
 ---
 
-## 🎯 Objetivos
+## Objetivos
 
 1.  **Aplicação do Paradigma Funcional:** Utilizar recursos como imutabilidade, recursão, pattern matching e funções de alta ordem para resolver o problema de parsing.
 2.  **Modelagem Formal:** Implementar o reconhecimento de linguagem baseado em regras de produção formais.
@@ -32,7 +32,7 @@ O projeto também utilizou prototipagem em Python (via biblioteca NLTK) para val
 
 ---
 
-## 🛠️ Especificação Técnica
+## Especificação Técnica
 
 O processo de validação é dividido em duas etapas sequenciais:
 
@@ -48,7 +48,7 @@ Responsável pela validação estrutural. O sistema verifica se a cadeia de toke
 
 ---
 
-## 🚀 Funcionalidades Suportadas
+## Funcionalidades Suportadas
 
 O analisador processa corretamente as seguintes estruturas:
 
@@ -59,7 +59,7 @@ O analisador processa corretamente as seguintes estruturas:
 
 ---
 
-## 🧪 Casos de Teste e Validação
+## Casos de Teste e Validação
 
 Abaixo apresentamos a matriz de testes utilizada para validar a robustez do analisador, confrontando entradas esperadas com o resultado do algoritmo.
 
@@ -75,7 +75,7 @@ Abaixo apresentamos a matriz de testes utilizada para validar a robustez do anal
 
 ---
 
-## 💻 Instruções de Execução
+## Instruções de Execução
 
 ### Pré-requisitos
 
@@ -107,7 +107,7 @@ Para executar este projeto, é necessário ter o ambiente Haskell configurado na
 
 ---
 
-## 📚 Contexto Acadêmico
+## Contexto Acadêmico
 
 Este projeto integra a avaliação da disciplina de Paradigmas de Linguagens de Programação, lecionada no curso de Ciência da Computação da Universidade Federal de Campina Grande (UFCG).
 

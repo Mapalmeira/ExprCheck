@@ -37,7 +37,7 @@ O projeto também utilizou prototipagem em Python (via biblioteca NLTK) para val
 O processo de validação é dividido em duas etapas sequenciais:
 
 ### 1. Análise Léxica (Scanning)
-Responsável pela verificação do alfabeto da linguagem. A entrada é processada como uma lista de caracteres, onde são identificados e validados os tokens primitivos.
+Responsável pela verificação do alfabeto da linguagem. A entrada é processada como uma lista de caracteres, onde são identificados e validados os tokens primitivos. Espaços em branco são ignorados durante o processamento.
 
 * **Alfabeto Válido:** Dígitos de 0 a 9, ponto decimal (.), operadores aritméticos (+, -, *, /, ^) e parênteses.
 

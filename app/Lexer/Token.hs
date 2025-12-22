@@ -23,4 +23,4 @@ instance Show Token where
   show TokPlus     = "+"
   show TokMinus    = "-"
   show (TokInt n)  = "INT(" ++ show n ++ ")"
-  show (TokReal n)  = "REAL(" ++ show n ++ ")"
+  show (TokReal n) = "REAL(" ++ show n ++ ")"

@@ -26,13 +26,13 @@ invalidInputs =
   , "1..2"
   ]
 
-lexerSucceeds :: String -> Test
+lexerSucceeds :: TestName -> Test
 lexerSucceeds input =
   assertRight
     ("Lexer aceita entrada válida: " ++ show input)
     (lexer input)
 
-lexerFails :: String -> Test
+lexerFails :: TestName -> Test
 lexerFails input =
   assertLeft
     ("Lexer rejeita entrada inválida: " ++ show input)

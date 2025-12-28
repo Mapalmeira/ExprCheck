@@ -31,7 +31,7 @@ lexerNum cs =
         ('.':restAfterDot) ->
             let (fracPart, restAfterFrac) = span isDigit restAfterDot
             in if null fracPart
-               then Left "Erro Léxico: Número real mal formado (terminado em ponto)"
+               then Left "Erro Léxico: Número real mal formado (espera-se números após o ponto)"
                else case restAfterFrac of
                    ('.':_) -> Left "Erro Léxico: Número real mal formado (múltiplos pontos)"
                    _ -> case lexer restAfterFrac of

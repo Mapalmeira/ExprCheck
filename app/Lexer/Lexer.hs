@@ -1,4 +1,3 @@
-{-# LANGUAGE InstanceSigs #-}
 module Lexer.Lexer where
 
 import Data.Char (isDigit, isSpace)
@@ -10,7 +9,6 @@ data LexerError
     deriving (Eq)
 
 instance Show LexerError where
-    show :: LexerError -> String
     show (LexerError msg occ) = "Erro léxico: " ++ msg ++ ": " ++ occ
 
 -- Empilha um token e continua o lexer no restante

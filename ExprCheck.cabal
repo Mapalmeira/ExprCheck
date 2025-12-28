@@ -72,7 +72,9 @@ executable ExprCheck
     build-depends:    base >=4.14 && <5
 
     -- Directories containing source files.
-    hs-source-dirs:   app
+    hs-source-dirs:
+        app
+        src
 
     -- Base language which the package is written in.
     default-language: Haskell2010
@@ -80,3 +82,23 @@ executable ExprCheck
     other-modules:
         Lexer.Token
         Lexer.Lexer
+        
+test-suite lexer-tests
+    import: warnings
+    type: exitcode-stdio-1.0
+    main-is: Main.hs
+
+    hs-source-dirs:
+        src
+        test
+
+    build-depends:
+        base >=4.14 && <5
+
+    default-language: Haskell2010
+
+    other-modules:
+        LexerTests
+        UnitTest
+        Lexer.Lexer
+        Lexer.Token

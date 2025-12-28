@@ -1,0 +1,5 @@
+dist-newstyle/
+*.exe
+*.dll
+*.pdb
+.vscode

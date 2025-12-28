@@ -32,7 +32,7 @@ validateLexer :: String -> IO ()
 validateLexer expr = do
   putStrLn "\n[Etapa - Validação Léxica]"
   case lexer expr of
-    Left err     -> putStrLn $ "Erro léxico: " ++ show err
+    Left err     -> putStrLn $ show err
     Right tokens -> do
       putStrLn "A expressão é lexicamente válida. Tokens gerados:\n"
       putStrLn $ tokensToString tokens

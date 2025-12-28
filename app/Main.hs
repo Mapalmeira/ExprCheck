@@ -2,7 +2,6 @@ module Main where
 
 import Data.Char (toUpper)
 import Lexer.Lexer
-import Lexer.Token
 import System.IO (hFlush, stdout)
 
 main :: IO ()
@@ -25,7 +24,7 @@ mainLoop = do
     "B" -> putStrLn "\nAnalisador sintático em construção.\n"
     _   -> putStrLn "\nOpção inválida."
 
-  cont <- prompt "Deseja validar outra expressão? (Y/N): "
+  cont <- prompt "\nDeseja validar outra expressão? (Y/N): "
   if map toUpper cont == "Y" then mainLoop else putStrLn "\nAté logo!"
 
 validateLexer :: String -> IO ()
@@ -35,10 +34,7 @@ validateLexer expr = do
     Left err     -> putStrLn $ show err
     Right tokens -> do
       putStrLn "A expressão é lexicamente válida. Tokens gerados:\n"
-      putStrLn $ tokensToString tokens
-
-tokensToString :: [Token] -> String
-tokensToString = unlines . map show
+      putStrLn $ show tokens
 
 prompt :: String -> IO String
 prompt msg = do

@@ -24,10 +24,10 @@ testCases =
 
 runTest :: String -> IO ()
 runTest input = do
-  putStrLn $ "\nEntrada: " ++ show input
+  putStrLn ("\nEntrada: " ++ input)
   case lexer input of
-    Left err     -> putStrLn $ "Erro: " ++ err
-    Right tokens -> putStrLn $ "Tokens: " ++ show tokens
+    Left err     -> print err
+    Right tokens -> print tokens
 
 main :: IO ()
 main = mapM_ runTest testCases

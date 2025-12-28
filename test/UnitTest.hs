@@ -17,23 +17,25 @@ assertTrue name condition msg =
   Test name $
     if condition then Right () else Left msg
 
-assertRight :: Show a => TestName -> Either e a -> Test
+assertRight :: (Show e, Show a) => TestName -> Either e a -> Test
 assertRight name result =
   case result of
+    Left e ->
+      Test
+        (name ++ " | retorno: " ++ show e)
+        (Left "Esperava sucesso, mas falhou")
     Right v ->
       Test
         (name ++ " | retorno: " ++ show v)
         (Right ())
-    Left _ ->
-      Test
-        name
-        (Left "Esperava sucesso, mas falhou")
 
-assertLeft :: Show a => TestName -> Either e a -> Test
+assertLeft :: (Show e, Show a) => TestName -> Either e a -> Test
 assertLeft name result =
   case result of
-    Left _ ->
-      Test name (Right ())
+    Left e ->
+      Test 
+        (name ++ " | retorno: " ++ show e)
+        (Right ())
     Right v ->
       Test
         name

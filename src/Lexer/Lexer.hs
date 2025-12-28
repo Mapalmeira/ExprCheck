@@ -3,41 +3,51 @@ module Lexer.Lexer where
 import Data.Char (isDigit, isSpace)
 import Lexer.Token
 
-lexer :: String -> Either String [Token]
+-- Tipo de erro do Lexer
+data LexerError
+    = LexerError String String
+    deriving (Eq)
+
+instance Show LexerError where
+    show (LexerError msg occ) = "Erro léxico: " ++ msg ++ ": " ++ occ
+
+-- Empilha um token e continua o lexer no restante
+addToken :: Token -> String -> Either LexerError [Token]
+addToken tok rest =
+    case lexer rest of
+        Left err   -> Left err
+        Right toks -> Right (tok : toks)
+
+lexer :: String -> Either LexerError [Token]
 lexer [] = Right [TokEOF]
 lexer (c:cs)
     | isSpace c = lexer cs
     | isDigit c = lexerNum (c:cs)
     | otherwise = case c of
-        '+' -> addToken TokPlus
-        '-' -> addToken TokMinus
-        '*' -> addToken TokStar
-        '/' -> addToken TokSlash
-        '^' -> addToken TokCaret
-        '(' -> addToken TokLParen
-        ')' -> addToken TokRParen
-        _   -> Left $ "Erro Léxico: Caractere inválido encontrado: '" ++ [c] ++ "'"
-  where
-    addToken tok =
-        case lexer cs of
-            Left err   -> Left err
-            Right toks -> Right (tok : toks)
+        '+' -> addToken TokPlus cs
+        '-' -> addToken TokMinus cs
+        '*' -> addToken TokStar cs
+        '/' -> addToken TokSlash cs
+        '^' -> addToken TokCaret cs
+        '(' -> addToken TokLParen cs
+        ')' -> addToken TokRParen cs
+        _   -> Left (LexerError "Caractere inválido encontrado" [c])
 
 -- Processa números inteiros e reais
-lexerNum :: String -> Either String [Token]
-lexerNum cs =
-    let (numPart, rest) = span isDigit cs
+lexerNum :: String -> Either LexerError [Token]
+lexerNum input =
+    let (intPart, rest) = span isDigit input
     in case rest of
-        ('.':restAfterDot) ->
-            let (fracPart, restAfterFrac) = span isDigit restAfterDot
-            in if null fracPart
-               then Left "Erro Léxico: Número real mal formado (terminado em ponto)"
-               else case restAfterFrac of
-                   ('.':_) -> Left "Erro Léxico: Número real mal formado (múltiplos pontos)"
-                   _ -> case lexer restAfterFrac of
-                       Left err   -> Left err
-                       Right toks -> Right (TokReal (read (numPart ++ "." ++ fracPart)) : toks)
+        ('.':restAfterDot) -> lexerRealFrac intPart restAfterDot
+        _ -> addToken (TokInt (read intPart)) rest
 
-        _ -> case lexer rest of
-            Left err   -> Left err
-            Right toks -> Right (TokInt (read numPart) : toks)
+-- Processa a parte fracionária de números reais após um ponto ser detectado
+lexerRealFrac :: String -> String -> Either LexerError [Token]
+lexerRealFrac intPart restAfterDot =
+    let (fracPart, restAfterFrac) = span isDigit restAfterDot
+        numberStr = intPart ++ "." ++ fracPart
+    in case fracPart of
+        [] -> Left (LexerError "Número real mal formado (esperava-se números após o ponto)" (intPart ++ "."))
+        _  -> case restAfterFrac of
+            '.':_ -> Left (LexerError "Número real mal formado (múltiplos pontos)" (numberStr ++ "."))
+            _     -> addToken (TokReal (read numberStr)) restAfterFrac

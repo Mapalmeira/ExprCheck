@@ -60,13 +60,13 @@ mulBuilder exp (token : rest) =
 parsePow :: [Token] -> ParseResult
 parsePow tokens =
     case parsePrimary tokens of
-        Left err -> Left err
+        Left err          -> Left err
         Right (exp, rest) -> powBuilder exp rest
 
 powBuilder :: Exp -> [Token] -> ParseResult
 powBuilder exp (TokCaret : rest) =
     case parsePrimary rest of
-        Left err -> Left err
+        Left err                  -> Left err
         Right (nextExp, nextRest) -> powBuilder (Binary Caret exp nextExp) nextRest
 powBuilder exp rest = Right (exp, rest)
 

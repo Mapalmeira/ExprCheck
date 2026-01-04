@@ -9,10 +9,10 @@ data BinOp
     | Caret
     deriving (Show, Eq)
 
-data Expr
+data Exp
     = IntVal Int
     | RealVal Double
-    | Binary BinOp Expr Expr
-    | UnaryNeg Expr
-    | UnaryPos Expr
+    | Binary BinOp Exp Exp
+    | UnaryNeg Exp
+    | UnaryPos Exp
     deriving (Show, Eq)

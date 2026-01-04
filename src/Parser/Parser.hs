@@ -5,16 +5,16 @@ import Parser.AST
 
 -- Tipo de retorno das funções do parser
 -- Ou um erro, ou (AST até então, Tokens a serem processados)
-type ParseResult = Either String (Expr, [Token])
+type ParseResult = Either String (Exp, [Token])
 
 -- Ponto de entrada
 -- Retorna uma mensagem de erro ou a AST resultante
-parse :: [Token] -> Either String Expr
+parse :: [Token] -> Either String Exp
 parse tokens =
     case parseSum tokens of
-        Left  err              -> Left err
-        Right (_, extraTokens) -> Left ("[Erro sintático] Tokens extras encontrados: " ++ show extraTokens)
         Right (exp, [])        -> Right exp
+        Right (_, extraTokens) -> Left ("[Erro sintático] Tokens extras encontrados: " ++ show extraTokens)
+        Left err               -> Left err
 
 -- Soma e Subtração
 parseSum :: [Token] -> ParseResult
@@ -24,7 +24,7 @@ parseSum tokens =
         Right (exp, rest) -> sumBuilder exp rest
 
 sumBuilder :: Exp -> [Token] -> ParseResult
-sumBuilder exp [] -> Right (exp, [])
+sumBuilder exp [] = Right (exp, [])
 sumBuilder exp (token : rest) =
     case token of
         TokPlus  -> process Plus
@@ -37,13 +37,13 @@ sumBuilder exp (token : rest) =
                 Right (nextExp, nextRest) -> sumBuilder (Binary op exp nextExp) nextRest
 
 -- Multiplicação e Divisão
-parseMul [Token] -> ParseResult
+parseMul :: [Token] -> ParseResult
 parseMul tokens =
     case parsePow tokens of
         Left err          -> Left err
-        Right (exp, rest) -> mulBuilder exp, rest
+        Right (exp, rest) -> mulBuilder exp rest
 
-mulBuilder Exp -> [Token] -> ParseResult
+mulBuilder :: Exp -> [Token] -> ParseResult
 mulBuilder exp [] = Right (exp, [])
 mulBuilder exp (token : rest) =
     case token of
@@ -64,11 +64,11 @@ parsePow tokens =
         Right (exp, rest) -> powBuilder exp rest
 
 powBuilder :: Exp -> [Token] -> ParseResult
-powBuilder exp rest = Right (exp, rest)
 powBuilder exp (TokCaret : rest) =
     case parsePrimary rest of
         Left err -> Left err
         Right (nextExp, nextRest) -> powBuilder (Binary Caret exp nextExp) nextRest
+powBuilder exp rest = Right (exp, rest)
 
 -- Átomos, Parênteses e Unários
 parsePrimary :: [Token] -> ParseResult

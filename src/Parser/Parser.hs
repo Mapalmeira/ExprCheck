@@ -12,7 +12,7 @@ type ParseResult = Either String (Exp, [Token])
 parse :: [Token] -> Either String Exp
 parse tokens =
     case parseSum tokens of
-        Right (exp, [])        -> Right exp
+        Right (exp, [TokEOF])        -> Right exp
         Right (_, extraTokens) -> Left ("[Erro sintático] Tokens extras encontrados: " ++ show extraTokens)
         Left err               -> Left err
 

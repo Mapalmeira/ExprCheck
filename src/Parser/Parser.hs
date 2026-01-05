@@ -24,17 +24,15 @@ parseSum tokens =
         Right (exp, rest) -> sumBuilder exp rest
 
 sumBuilder :: Exp -> [Token] -> ParseResult
-sumBuilder exp [] = Right (exp, [])
-sumBuilder exp (token : rest) =
-    case token of
-        TokPlus  -> process Plus
-        TokMinus -> process Minus
-        _        -> Right (exp, token : rest)
-    where
-        process op =
-            case parseMul rest of
-                Left err                  -> Left err
-                Right (nextExp, nextRest) -> sumBuilder (Binary op exp nextExp) nextRest
+sumBuilder exp (TokPlus : rest) =
+    case parseMul rest of
+        Left err                  -> Left err
+        Right (nextExp, nextRest) -> sumBuilder (Binary Plus exp nextExp) nextRest
+sumBuilder exp (TokMinus : rest) =
+    case parseMul rest of
+        Left err                  -> Left err
+        Right (nextExp, nextRest) -> sumBuilder (Binary Minus exp nextExp) nextRest
+sumBuilder exp tokens = Right (exp, tokens)
 
 -- Multiplicação e Divisão
 parseMul :: [Token] -> ParseResult
@@ -44,33 +42,43 @@ parseMul tokens =
         Right (exp, rest) -> mulBuilder exp rest
 
 mulBuilder :: Exp -> [Token] -> ParseResult
-mulBuilder exp [] = Right (exp, [])
-mulBuilder exp (token : rest) =
-    case token of
-        TokStar  -> process Star
-        TokSlash -> process Slash
-        _        -> Right (exp, token : rest)
-    where
-        process op =
-            case parsePow rest of
-                Left err                  -> Left err
-                Right (nextExp, nextRest) -> mulBuilder (Binary op exp nextExp) nextRest
+mulBuilder exp (TokStar : rest) =
+    case parsePow rest of
+        Left err                  -> Left err
+        Right (nextExp, nextRest) -> mulBuilder (Binary Star exp nextExp) nextRest
+mulBuilder exp (TokSlash : rest) =
+    case parsePow rest of
+        Left err                  -> Left err
+        Right (nextExp, nextRest) -> mulBuilder (Binary Slash exp nextExp) nextRest
+mulBuilder exp tokens = Right (exp, tokens)
 
 -- Potenciação
 parsePow :: [Token] -> ParseResult
 parsePow tokens =
-    case parsePrimary tokens of
+    case parseUnary tokens of
         Left err          -> Left err
         Right (exp, rest) -> powBuilder exp rest
 
 powBuilder :: Exp -> [Token] -> ParseResult
 powBuilder exp (TokCaret : rest) =
-    case parsePrimary rest of
+    case parsePow rest of
         Left err                  -> Left err
-        Right (nextExp, nextRest) -> powBuilder (Binary Caret exp nextExp) nextRest
-powBuilder exp rest = Right (exp, rest)
+        Right (nextExp, nextRest) -> Right (Binary Caret exp nextExp, nextRest)
+powBuilder exp tokens = Right (exp, tokens)
 
--- Átomos, Parênteses e Unários
+-- Unários
+parseUnary :: [Token] -> ParseResult
+parseUnary (TokMinus : rest) =
+    case parsePrimary rest of
+        Left err -> Left err
+        Right (exp, nextRest) -> Right (UnaryNeg exp, nextRest)
+parseUnary (TokPlus : rest) =
+    case parsePrimary rest of
+        Left err -> Left err
+        Right (exp, nextRest) -> Right (UnaryPos exp, nextRest)
+parseUnary tokens = parsePrimary tokens
+
+-- Número e Parênteses
 parsePrimary :: [Token] -> ParseResult
 parsePrimary (TokInt n : rest) = Right (IntVal n, rest)
 parsePrimary (TokReal n : rest) = Right (RealVal n, rest)
@@ -79,12 +87,4 @@ parsePrimary (TokLParen : rest) =
         Left err                          -> Left err
         Right (exp, TokRParen : nextRest) -> Right (exp, nextRest)
         Right (_, nextRest)               -> Left ("[Erro sintático] Esperava-se um ')' em: " ++ show nextRest) 
-parsePrimary (TokMinus : rest) =
-    case parsePrimary rest of
-        Left err              -> Left err
-        Right (exp, nextRest) -> Right (UnaryNeg exp, nextRest)
-parsePrimary (TokPlus : rest) =
-    case parsePrimary rest of
-        Left err              -> Left err
-        Right (exp, nextRest) -> Right (UnaryPos exp, nextRest)
-parsePrimary tokens = Left ("[Erro sintático] Esperava-se um '(', número ou sinal em: " ++ show tokens)
+parsePrimary tokens = Left ("[Erro sintático] Esperava-se um '(' ou número em: " ++ show tokens)

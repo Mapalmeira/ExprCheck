@@ -61,6 +61,8 @@ library exprcheck-core
     exposed-modules:
         Lexer.Token
         Lexer.Lexer
+        Parser.AST
+        Parser.Parser
     build-depends: base >=4.14 && <5
     default-language: Haskell2010
 
@@ -94,3 +96,4 @@ test-suite lexer-tests
     other-modules:
         LexerTests
         UnitTest
+        ParserTests

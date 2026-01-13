@@ -65,7 +65,7 @@ Primary -> int | real | '(' Sum ')'
 ```
 ---
 
-##3. Matriz de Testes
+## 3. Matriz de Testes
 A tabela a seguir apresenta alguns dos casos de teste utilizados para validar a robustez do analisador. Note que o parser suporta operadores unários repetidos (como ++ ou --), interpretando-os corretamente de acordo com a semântica matemática.
 
 | Expressão de Entrada | Resultado  | Justificativa Técnica                                  |
@@ -80,33 +80,47 @@ A tabela a seguir apresenta alguns dos casos de teste utilizados para validar a 
 
 ---
 
-##4. Instruções de Execução
+## 4. Instruções de Execução
 
-Este projeto utiliza o Cabal para gerenciamento de dependências e construção.
+Este projeto utiliza o ecossistema **Cabal** para gerenciamento de dependências, compilação e execução de testes.
 
-Pré-requisitos
+### Pré-requisitos
 
-GHC e Cabal
-Recomendamos a instalação via GHCup.
+Antes de começar, certifique-se de ter o ambiente Haskell configurado:
 
-Passo a Passo
+* **[GHCup](https://www.haskell.org/ghcup/):** Instalador recomendado para o compilador GHC e a ferramenta Cabal.
+* **Git:** Para clonar o repositório.
 
-Clonar o repositório:
+### Instalação
 
-  git clone https://github.com/Mapalmeira/ExprCheck.git
-  cd ExprCheck
+1.  Abra o terminal e clone o repositório:
+    ```bash
+    git clone [https://github.com/Mapalmeira/ExprCheck.git](https://github.com/Mapalmeira/ExprCheck.git)
+    ```
 
-Executar o CLI interativo:
-Para validar expressões manualmente através do menu:
+2.  Acesse o diretório do projeto:
+    ```bash
+    cd ExprCheck
+    ```
 
-  cabal run
+### Utilização
 
-Executar os testes automatizados:
-Para rodar a suíte de testes léxicos e sintáticos:
+O projeto oferece dois modos de execução:
 
-  cabal test
+**1. Modo Interativo (CLI)**
+Para validar expressões manualmente através do menu interativo:
+```bash
+cabal run
+```
+
+**2.Modo de testes**
+Para realizar os testes presentes no arquivo
+```bash
+cabal test
+```
+  
 ---
-##5. Autores
+## 5. Autores
 
 * [Andrey Kaua Aragao Feitosa](https://github.com/Andrey-Kaua)
 * [Erik Alves Almeida](https://github.com/ErikAlvesAlmeida)

@@ -61,7 +61,7 @@ Mul'    -> * Pow Mul' | / Pow Mul' | ε
 Pow     -> Unary Pow'
 Pow'    -> ^ Pow | ε
 Unary   -> + Primary | - Primary | Primary
-Primary -> int | real | '(' Sum ')'
+Primary -> INT | REAL | '(' Sum ')'
 ```
 ---
 

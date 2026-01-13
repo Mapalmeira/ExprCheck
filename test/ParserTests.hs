@@ -11,31 +11,31 @@ parseString input =
     Left err -> Left (show err)
     Right tokens -> parse tokens
 
-testPrecedencia :: Test
-testPrecedencia =
+testPrecedence :: Test
+testPrecedence =
   let input = "1 + 2 * 3"
       expected = Right (Binary Plus (IntVal 1) (Binary Star (IntVal 2) (IntVal 3)))
   in assertEquals input expected (parseString input)
 
-testParenteses :: Test
-testParenteses =
+testParen :: Test
+testParen =
   let input = "(1 + 2) * 3"
       expected = Right (Binary Star (Binary Plus (IntVal 1) (IntVal 2)) (IntVal 3))
   in assertEquals input expected (parseString input)
 
-testPotencia :: Test
-testPotencia =
+testPow :: Test
+testPow =
   let input = "4 * 2 ^ 3"
       expected = Right (Binary Star (IntVal 4) (Binary Caret (IntVal 2) (IntVal 3)))
   in assertEquals input expected (parseString input)
 
-testErroSintatico :: Test
-testErroSintatico =
+testSyntaxError :: Test
+testSyntaxError =
   let input = "( 5 * 2"
   in assertLeft input (parseString input)
 
-testBugConhecido :: Test
-testBugConhecido =
+testMultipleSign :: Test
+testMultipleSign =
   let input = "5 ++ 5"
   in assertRight input (parseString input)
 
@@ -43,9 +43,9 @@ data ParserTests = ParserTests
 
 instance TestSuite ParserTests where
   tests _ =
-    [ testPrecedencia
-    , testParenteses
-    , testPotencia
-    , testErroSintatico
-    , testBugConhecido
+    [ testPrecedence
+    , testParen
+    , testPow
+    , testSyntaxError
+    , testMultipleSign
     ]

@@ -64,8 +64,8 @@ Unary   -> + Primary | - Primary | Primary
 Primary -> int | real | '(' Sum ')'
 ```
 ---
-3. Matriz de Testes
 
+##3. Matriz de Testes
 A tabela a seguir apresenta alguns dos casos de teste utilizados para validar a robustez do analisador. Note que o parser suporta operadores unários repetidos (como ++ ou --), interpretando-os corretamente de acordo com a semântica matemática.
 
 | Expressão de Entrada | Resultado  | Justificativa Técnica                                  |
@@ -79,7 +79,8 @@ A tabela a seguir apresenta alguns dos casos de teste utilizados para validar a 
 | `1 + @`              | Rejeitado  | Erro léxico: símbolo fora do alfabeto válido.          |
 
 ---
-4. Instruções de Execução
+
+##4. Instruções de Execução
 
 Este projeto utiliza o Cabal para gerenciamento de dependências e construção.
 
@@ -105,7 +106,7 @@ Para rodar a suíte de testes léxicos e sintáticos:
 
   cabal test
 ---
-5. Autores
+##5. Autores
 
 * [Andrey Kaua Aragao Feitosa](https://github.com/Andrey-Kaua)
 * [Erik Alves Almeida](https://github.com/ErikAlvesAlmeida)

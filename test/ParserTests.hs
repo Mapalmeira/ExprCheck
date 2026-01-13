@@ -5,6 +5,7 @@ import Lexer.Lexer
 import Parser.Parser
 import Parser.AST
 
+-- Dense tests
 parseString :: String -> Either String Exp
 parseString input =
   case lexer input of
@@ -39,6 +40,43 @@ testMultipleSign =
   let input = "5 ++ 5"
   in assertRight input (parseString input)
 
+
+-- Quick tests
+otherValidInputs = 
+  [ "5"
+  ,  "+5"
+  , "5+3"
+  , "5.3 + 2"
+  , "5.3^2"
+  , "+5.3^2"
+  , "5^(5+3+2)"
+  , "5-(5+(5-(5)))"
+  , "(5+3) * (5-3)"
+  , "5*(5-3)"
+  , "((((5))))"
+  , "+(+(+(5)))"
+  , "5^(5+3+2)"
+  ]
+
+otherInvalidInputs = 
+  [ "()"
+  , "5+-+-+-+-+-5"
+  ]
+
+parserSucceeds :: String -> Test
+parserSucceeds input =
+  assertRight
+    ("Parser aceita entrada válida: " ++ show input)
+    (parseString input)
+
+parserFails :: String -> Test
+parserFails input =
+  assertLeft
+    ("Parser rejeita entrada inválida: " ++ show input)
+    (parseString input)
+
+
+-- Test suite
 data ParserTests = ParserTests
 
 instance TestSuite ParserTests where
@@ -49,3 +87,7 @@ instance TestSuite ParserTests where
     , testSyntaxError
     , testMultipleSign
     ]
+    ++
+    map parserSucceeds otherValidInputs
+    ++
+    map parserFails otherInvalidInputs

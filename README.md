@@ -62,8 +62,8 @@ Pow     -> Unary Pow'
 Pow'    -> ^ Pow | ε
 Unary   -> + Primary | - Primary | Primary
 Primary -> int | real | '(' Sum ')'
-
-
+```
+---
 3. Matriz de Testes
 
 A tabela a seguir apresenta alguns dos casos de teste utilizados para validar a robustez do analisador. Note que o parser suporta operadores unários repetidos (como ++ ou --), interpretando-os corretamente de acordo com a semântica matemática.
@@ -78,6 +78,7 @@ A tabela a seguir apresenta alguns dos casos de teste utilizados para validar a 
 | `(5 * 2`             | Rejeitado  | Erro sintático: parênteses não balanceados.            |
 | `1 + @`              | Rejeitado  | Erro léxico: símbolo fora do alfabeto válido.          |
 
+---
 4. Instruções de Execução
 
 Este projeto utiliza o Cabal para gerenciamento de dependências e construção.
@@ -85,28 +86,25 @@ Este projeto utiliza o Cabal para gerenciamento de dependências e construção.
 Pré-requisitos
 
 GHC e Cabal
-Recomendamos a instalação via GHCup
-.
+Recomendamos a instalação via GHCup.
 
 Passo a Passo
 
 Clonar o repositório:
 
-git clone https://github.com/Mapalmeira/ExprCheck.git
-cd ExprCheck
-
+  git clone https://github.com/Mapalmeira/ExprCheck.git
+  cd ExprCheck
 
 Executar o CLI interativo:
 Para validar expressões manualmente através do menu:
 
-cabal run
-
+  cabal run
 
 Executar os testes automatizados:
 Para rodar a suíte de testes léxicos e sintáticos:
 
-cabal test
-
+  cabal test
+---
 5. Autores
 
 * [Andrey Kaua Aragao Feitosa](https://github.com/Andrey-Kaua)

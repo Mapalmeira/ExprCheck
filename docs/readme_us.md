@@ -1,128 +1,125 @@
 <div align="center">
 
-# Lexical-Syntactic Validator and Evaluator for Mathematical Expressions
+# Lexical and Syntactic Validator & Evaluator for Mathematical Expressions
 
 ![Haskell](https://img.shields.io/badge/Language-Haskell-5e5086?style=for-the-badge&logo=haskell&logoColor=white)
 ![Paradigm](https://img.shields.io/badge/Paradigm-Functional-orange?style=for-the-badge)
 ![UFCG](https://img.shields.io/badge/Institution-UFCG-009639?style=for-the-badge)
 
 <p align="center">
-  <b>Project developed for the Programming Language Paradigms course.</b>
-</p>
-
-<p align="center">
-  <a href="../README.md"> Ler em Português</a>
+  <b>Project developed for the Programming Languages Paradigms course.</b>
 </p>
 
 </div>
 
 ---
 
-## Summary
+## 1. Overview
 
-This project consists of the implementation of a parser capable of validating mathematical expressions from lexical and syntactic perspectives. Developed strictly under the functional paradigm using the Haskell language, the system verifies the adherence of an input string to a pre-defined Context-Free Grammar (CFG), supporting fundamental arithmetic operations, real numbers, and precedence via parentheses.
+This project implements an analyzer capable of **validating and evaluating mathematical expressions** from both lexical and syntactic perspectives. Developed strictly under the **functional paradigm** using **Haskell**, the system verifies whether an input string conforms to a previously defined **Context-Free Grammar (CFG)**.
 
-The project also utilized prototyping in Python (via the NLTK library) for prior validation of the absence of ambiguity in the proposed grammar.
-
----
-
-## Objectives
-
-1.  **Functional Paradigm Application:** Utilize resources such as immutability, recursion, pattern matching, and higher-order functions to solve the parsing problem.
-2.  **Formal Modeling:** Implement language recognition based on formal production rules.
-3.  **Expression Handling:** Ensure correct operator precedence and associativity.
+The analyzer supports the main arithmetic operations, real numbers, and precedence control through parentheses, ensuring correct interpretation of operation order by constructing an **Abstract Syntax Tree (AST)**.
 
 ---
 
-## Technical Specification
+## 2. Technical Specification
 
-The validation process is divided into two sequential stages:
+The validation process is divided into two well-defined sequential stages:
 
-### 1. Lexical Analysis (Scanning)
-Responsible for verifying the language's alphabet. The input is processed as a list of characters, where primitive tokens are identified and validated. White spaces are ignored during processing.
+### 2.1. Lexical Analysis (Scanning)
 
-* **Valid Alphabet:** Digits 0 to 9, decimal point (.), arithmetic operators (+, -, *, /, ^), and parentheses.
+The input is processed as a list of characters, from which primitive *tokens* are identified and validated. The analyzer ignores whitespace and rejects any character that does not belong to the valid language alphabet.
 
-Any symbol that does not belong to this set results in immediate rejection of the string.
+**Recognized tokens:**
 
-### 2. Syntactic Analysis (Parsing)
-Responsible for structural validation. The system checks if the chain of tokens can be derived from the grammar's start symbol. The implementation considers standard mathematical operator precedence and was designed to avoid ambiguity and direct left recursion.
+- **Literals:**  
+  `TokInt` (integers), `TokReal` (floating-point numbers)
 
----
+- **Operators:**  
+  `TokPlus` (+), `TokMinus` (-), `TokStar` (*), `TokSlash` (/), `TokCaret` (^)
 
-## Supported Features
-
-The analyzer correctly processes the following structures:
-
-* **Numeric Types:** Integers (e.g., 10) and Floating Point (e.g., 12.5).
-* **Arithmetic Operators:** Addition (+), Subtraction (-), Multiplication (*), Division (/), and Exponentiation (^).
-* **Unary Operators:** Handling of negative numbers (e.g., -5).
-* **Grouping:** Use of parentheses to alter standard precedence.
+- **Delimiters:**  
+  `TokLParen` (`(`) and `TokRParen` (`)`)
 
 ---
 
-## Test Cases and Validation
+### 2.2. Syntactic Analysis (Parsing)
 
-Below is the test matrix used to validate the analyzer's robustness, comparing expected inputs with the algorithm's result.
+The system uses a **Recursive Descent Parser** to validate the grammatical structure of expressions. This approach allows operator precedence to be handled directly through the hierarchy of function calls, avoiding ambiguities and eliminating the need for direct left recursion.
 
-| Input Expression | Result | Technical Justification |
-| :--- | :---: | :--- |
-| `1 + 2 * 3` | Accepted | Respects operator precedence. |
-| `(3 + 2) * 7` | Accepted | Correct use of parentheses for grouping. |
-| `12.3 + 4.56` | Accepted | Correct recognition of real literals. |
-| `5 ^ -2` | Accepted | Unary operator correctly applied in exponent. |
-| `5 ++ 5` | Rejected | Syntactic Error: Absence of operand between operators. |
-| `(5 * 2` | Rejected | Syntactic Error: Unbalanced parentheses. |
-| `1 + @` | Rejected | Lexical Error: Symbol does not belong to the valid alphabet. |
+**Context-Free Grammar (BNF):**
+
+```text
+Exp     -> Sum EOF
+Sum     -> Mul Sum'
+Sum'    -> + Mul Sum' | - Mul Sum' | ε
+Mul     -> Pow Mul'
+Mul'    -> * Pow Mul' | / Pow Mul' | ε
+Pow     -> Unary Pow'
+Pow'    -> ^ Pow | ε
+Unary   -> + Primary | - Primary | Primary
+Primary -> INT | REAL | '(' Sum ')'
+```
+---
+## 3. Test Matrix
+
+The table below presents some of the test cases used to validate the robustness of the analyzer. Note that the parser supports repeated unary operators (such as ++ or --), interpreting them correctly according to mathematical semantics.
+
+| Input Expression | Result       | Technical Justification                                   |
+| ---------------- | ------------ | --------------------------------------------------------- |
+| `1 + 2 * 3`      | Accepted     | Respects precedence: `*` is evaluated before `+`.         |
+| `(3 + 2) * 7`    | Accepted     | Correct use of parentheses for grouping.                  |
+| `12.3 + 4.56`    | Accepted     | Correct recognition of real literals.                     |
+| `5 ^ -2`         | Accepted     | Unary operator correctly applied to the exponent.         |
+| `5 ++ 5`         | **Accepted** | Interpreted as addition of a positive value (`5 + (+5)`). |
+| `(5 * 2`         | Rejected     | Syntactic error: unbalanced parentheses.                  |
+| `1 + @`          | Rejected     | Lexical error: symbol outside the valid alphabet.         |
 
 ---
+## 4. Execution Instructions
 
-## Execution Instructions
+This project uses the Cabal ecosystem for dependency management, compilation, and test execution.
 
 ### Prerequisites
 
-To execute this project, you must have the Haskell environment configured on your machine.
+Before starting, make sure your Haskell environment is properly configured:
 
-* **GHC (Glasgow Haskell Compiler):** The standard compiler for Haskell. Usually installed via GHCup.
+GHCup: Recommended installer for the GHC compiler and Cabal tool.
 
-### Step-by-Step
+Git: Required to clone the repository.
 
-1.  **Clone the repository:**
-    Open your terminal and run the command below to download the project:
-    ```bash
-    git clone [https://github.com/Mapalmeira/ExprCheck.git](https://github.com/Mapalmeira/ExprCheck.git)
-    cd ExprCheck
-    ```
+### Installation
 
-2.  **Load the interpreter:**
-    In the project directory, start the Haskell interactive environment:
-    ```bash
-    ghci Main.hs
-    ```
+Clone the repository:
+```bash
+git clone https://github.com/Mapalmeira/ExprCheck.git
+```
+Navigate to the project directory:
+```
+cd ExprCheck
+```
 
-3.  **Run validation:**
-    Inside the GHCi terminal (which will appear as `*Main>`), use the `validar` function passing the expression in quotes:
-    ```haskell
-    *Main> validar "3 * (4 + 5)"
-    -- Expected Output: True
-    ```
+### Usage
+
+The project provides two execution modes:
+
+**1. Interactive Mode (CLI)**
+To manually validate expressions using the interactive menu:
+```bash
+cabal run
+```
+
+**2. Test Mode**
+To run the automated tests included in the project:
+```bash
+cabal test
+```
 
 ---
-
-## Academic Context
-
-This project is part of the assessment for the Programming Language Paradigms course, taught in the Computer Science program at the Federal University of Campina Grande (UFCG).
-
-### Authors
+## 5. Authors
 
 * [Andrey Kaua Aragao Feitosa](https://github.com/Andrey-Kaua)
 * [Erik Alves Almeida](https://github.com/ErikAlvesAlmeida)
 * [Isadora Beatriz Lucena de Medeiros](https://github.com/isadoralucena)
 * [João Henrique Silva Lima](https://github.com/limajoaohs)
 * [Matheus Palmeira Leite Rocha](https://github.com/Mapalmeira)
-
----
-
-<div align="center">
-  <sub>UFCG - 2025.2</sub>
-</div>

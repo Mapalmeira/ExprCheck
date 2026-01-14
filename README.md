@@ -10,117 +10,120 @@
   <b>Projeto desenvolvido para a disciplina de Paradigmas de Linguagens de Programação.</b>
 </p>
 <p align="center">
-  <a href="docs/readme_us.md"> Read in English</a>
+  <a href="docs/readme_us.md">Read in English</a>
 </p>
+
 </div>
 
 ---
 
-## Resumo
+## 1. Visão Geral
 
-Este projeto consiste na implementação de um analisador capaz de validar expressões matemáticas sob as perspectivas léxica e sintática. Desenvolvido estritamente sob o paradigma funcional utilizando a linguagem Haskell, o sistema verifica a aderência de uma cadeia de entrada a uma Gramática Livre de Contexto (GLC) pré-definida, suportando operações aritméticas fundamentais, números reais e precedência por parênteses.
+Este projeto implementa um analisador capaz de **validar e avaliar expressões matemáticas** sob as perspectivas léxica e sintática. Desenvolvido estritamente sob o paradigma funcional em **Haskell**, o sistema verifica se uma cadeia de entrada está em conformidade com uma **Gramática Livre de Contexto (GLC)** previamente definida.
 
-O projeto também utilizou prototipagem em Python (via biblioteca NLTK) para validação prévia da ausência de ambiguidade na gramática proposta.
-
----
-
-## Objetivos
-
-1.  **Aplicação do Paradigma Funcional:** Utilizar recursos como imutabilidade, recursão, pattern matching e funções de alta ordem para resolver o problema de parsing.
-2.  **Modelagem Formal:** Implementar o reconhecimento de linguagem baseado em regras de produção formais.
-3.  **Tratamento de Expressões:** Garantir a correta precedência de operadores e associatividade.
+O analisador oferece suporte às principais operações aritméticas, números reais e controle de precedência por meio de parênteses, garantindo a correta interpretação da ordem das operações matemáticas através da construção de uma **Árvore Sintática Abstrata (AST)**.
 
 ---
 
-## Especificação Técnica
+## 2. Especificação Técnica
 
-O processo de validação é dividido em duas etapas sequenciais:
+O processo de validação ocorre em duas etapas sequenciais e bem definidas:
 
-### 1. Análise Léxica (Scanning)
-Responsável pela verificação do alfabeto da linguagem. A entrada é processada como uma lista de caracteres, onde são identificados e validados os tokens primitivos. Espaços em branco são ignorados durante o processamento.
+### 2.1. Análise Léxica (Scanning)
 
-* **Alfabeto Válido:** Dígitos de 0 a 9, ponto decimal (.), operadores aritméticos (+, -, *, /, ^) e parênteses.
+A entrada é processada como uma lista de caracteres, na qual são identificados e validados os *tokens* primitivos. O analisador ignora espaços em branco e rejeita quaisquer caracteres que não pertençam ao alfabeto válido da linguagem.
 
-Qualquer símbolo que não pertença a este conjunto resulta em rejeição imediata da cadeia.
+**Tokens reconhecidos:**
 
-### 2. Análise Sintática (Parsing)
-Responsável pela validação estrutural. O sistema verifica se a cadeia de tokens pode ser derivada a partir do símbolo inicial da gramática. A implementação considera a precedência de operadores matemáticos padrão e foi projetada para evitar ambiguidade e recursão à esquerda direta.
+- **Literais:**  
+  `TokInt` (inteiros), `TokReal` (números de ponto flutuante)
 
----
+- **Operadores:**  
+  `TokPlus` (+), `TokMinus` (-), `TokStar` (*), `TokSlash` (/), `TokCaret` (^)
 
-## Funcionalidades Suportadas
-
-O analisador processa corretamente as seguintes estruturas:
-
-* **Tipos Numéricos:** Inteiros (ex: 10) e Ponto Flutuante (ex: 12.5).
-* **Operadores Aritméticos:** Soma (+), Subtração (-), Multiplicação (*), Divisão (/) e Potenciação (^).
-* **Operadores Unários:** Tratamento de números negativos (ex: -5).
-* **Agrupamento:** Uso de parênteses para alterar a precedência padrão.
+- **Delimitadores:**  
+  `TokLParen` (`(`) e `TokRParen` (`)`)
 
 ---
 
-## Casos de Teste e Validação
+### 2.2. Análise Sintática (Parsing)
 
-Abaixo apresentamos a matriz de testes utilizada para validar a robustez do analisador, confrontando entradas esperadas com o resultado do algoritmo.
+O sistema utiliza um **Analisador Descendente Recursivo** (*Recursive Descent Parser*) para validar a estrutura gramatical das expressões. Essa abordagem permite tratar a precedência de operadores diretamente na hierarquia das chamadas de função, evitando ambiguidades e eliminando a necessidade de recursão à esquerda direta.
 
-| Expressão de Entrada | Resultado | Justificativa Técnica |
-| :--- | :---: | :--- |
-| `1 + 2 * 3` | Aceito | Respeita a precedência de operadores. |
-| `(3 + 2) * 7` | Aceito | Uso correto de parênteses para agrupamento. |
-| `12.3 + 4.56` | Aceito | Reconhecimento correto de literais reais. |
-| `5 ^ -2` | Aceito | Operador unário aplicado corretamente em expoente. |
-| `5 ++ 5` | Rejeitado | Erro Sintático: Ausência de operando entre operadores. |
-| `(5 * 2` | Rejeitado | Erro Sintático: Parênteses não balanceados. |
-| `1 + @` | Rejeitado | Erro Léxico: Símbolo não pertence ao alfabeto válido. |
+**Gramática Livre de Contexto (BNF):**
+
+```text
+Exp     -> Sum EOF
+Sum     -> Mul Sum'
+Sum'    -> + Mul Sum' | - Mul Sum' | ε
+Mul     -> Pow Mul'
+Mul'    -> * Pow Mul' | / Pow Mul' | ε
+Pow     -> Unary Pow'
+Pow'    -> ^ Pow | ε
+Unary   -> + Primary | - Primary | Primary
+Primary -> INT | REAL | '(' Sum ')'
+```
+---
+
+## 3. Matriz de Testes
+A tabela a seguir apresenta alguns dos casos de teste utilizados para validar a robustez do analisador. Note que o parser suporta operadores unários repetidos (como ++ ou --), interpretando-os corretamente de acordo com a semântica matemática.
+
+| Expressão de Entrada | Resultado  | Justificativa Técnica                                  |
+| -------------------- | ---------- | ------------------------------------------------------ |
+| `1 + 2 * 3`          | Aceito     | Respeita a precedência: `*` é avaliado antes de `+`.   |
+| `(3 + 2) * 7`        | Aceito     | Uso correto de parênteses para agrupamento.            |
+| `12.3 + 4.56`        | Aceito     | Reconhecimento correto de literais reais.              |
+| `5 ^ -2`             | Aceito     | Operador unário aplicado corretamente ao expoente.     |
+| `5 ++ 5`             | **Aceito** | Interpretado como soma de valor positivo (`5 + (+5)`). |
+| `(5 * 2`             | Rejeitado  | Erro sintático: parênteses não balanceados.            |
+| `1 + @`              | Rejeitado  | Erro léxico: símbolo fora do alfabeto válido.          |
 
 ---
 
-## Instruções de Execução
+## 4. Instruções de Execução
+
+Este projeto utiliza o ecossistema **Cabal** para gerenciamento de dependências, compilação e execução de testes.
 
 ### Pré-requisitos
 
-Para executar este projeto, é necessário ter o ambiente Haskell configurado na sua máquina.
+Antes de começar, certifique-se de ter o ambiente Haskell configurado:
 
-* **GHC (Glasgow Haskell Compiler):** O compilador padrão para Haskell. Normalmente instalado via GHCup.
+* **[GHCup](https://www.haskell.org/ghcup/):** Instalador recomendado para o compilador GHC e a ferramenta Cabal.
+* **Git:** Para clonar o repositório.
 
-### Passo a Passo
+### Instalação
 
-1.  **Clonar o repositório:**
-    Abra o terminal e execute o comando abaixo para baixar o projeto:
+1.  Abra o terminal e clone o repositório:
     ```bash
     git clone [https://github.com/Mapalmeira/ExprCheck.git](https://github.com/Mapalmeira/ExprCheck.git)
+    ```
+
+2.  Acesse o diretório do projeto:
+    ```bash
     cd ExprCheck
     ```
 
-2.  **Carregar o interpretador:**
-    No diretório do projeto, inicie o ambiente interativo do Haskell:
-    ```bash
-    ghci Main.hs
-    ```
+### Utilização
 
-3.  **Executar a validação:**
-    Dentro do terminal do GHCi (que aparecerá como `*Main>`), utilize a função `validar` passando a expressão entre aspas:
-    ```haskell
-    *Main> validar "3 * (4 + 5)"
-    -- Saída Esperada: True
-    ```
+O projeto oferece dois modos de execução:
 
+**1. Modo Interativo (CLI)**
+Para validar expressões manualmente através do menu interativo:
+```bash
+cabal run
+```
+
+**2.Modo de testes**
+Para realizar os testes presentes no arquivo
+```bash
+cabal test
+```
+  
 ---
-
-## Contexto Acadêmico
-
-Este projeto integra a avaliação da disciplina de Paradigmas de Linguagens de Programação, lecionada no curso de Ciência da Computação da Universidade Federal de Campina Grande (UFCG).
-
-### Autores
+## 5. Autores
 
 * [Andrey Kaua Aragao Feitosa](https://github.com/Andrey-Kaua)
 * [Erik Alves Almeida](https://github.com/ErikAlvesAlmeida)
 * [Isadora Beatriz Lucena de Medeiros](https://github.com/isadoralucena)
 * [João Henrique Silva Lima](https://github.com/limajoaohs)
 * [Matheus Palmeira Leite Rocha](https://github.com/Mapalmeira)
-
----
-
-<div align="center">
-  <sub>UFCG - 2025.2</sub>
-</div>

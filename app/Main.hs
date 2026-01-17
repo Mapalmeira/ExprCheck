@@ -74,11 +74,11 @@ printTokensTree prefix tokens =
       | i == lastIndex = putStrLn $ prefix ++ "└── " ++ show tok
       | otherwise     = putStrLn $ prefix ++ "├── " ++ show tok
 
-printAST :: String -> Exp -> IO ()
+printAST :: String -> Ast -> IO ()
 printAST prefix =
   printAST' prefix True
 
-printAST' :: String -> Bool -> Exp -> IO ()
+printAST' :: String -> Bool -> Ast -> IO ()
 printAST' prefix isLast expr = do
   putStrLn $ prefix ++ branch ++ label
   case expr of

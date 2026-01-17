@@ -54,7 +54,7 @@ runSyntactic expr =
       case parse tokens of
         Left err -> do
           putStrLn "  - Erro Sintático"
-          putStrLn $ "    " ++ err
+          putStrLn $ "    " ++ show err
         Right ast -> do
           putStrLn "  - AST"
           printAST "    " ast

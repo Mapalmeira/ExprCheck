@@ -5,18 +5,36 @@ import Parser.AST
 
 -- Tipo de retorno das funções do parser:
 -- Ou um erro (Left), ou uma tupla com a AST e os Tokens restantes (Right)
-type ParseResult = Either String (Ast, [Token])
+type ParseResult = Either ParserError (Ast, [Token])
+
+-- Tipo de erro do Parser
+data ParserError
+    = UnexpectedToken String [Token]
+    | MissingToken String [Token]
+    | ExtraTokens [Token]
+    deriving (Eq)
+
+instance Show ParserError where
+    show (UnexpectedToken expected found) =
+        "[Erro sintático] Esperava-se " ++ expected ++ ", mas encontrou: " ++ show found
+
+    show (MissingToken expected tokens) =
+        "[Erro sintático] Esperava-se " ++ expected ++ " em: " ++ show tokens
+
+    show (ExtraTokens tokens) =
+        "[Erro sintático] Tokens extras encontrados: " ++ show tokens
 
 -- Ponto de entrada principal
 -- Retorna uma mensagem de erro ou a AST completa
-parse :: [Token] -> Either String Ast
+parse :: [Token] -> Either ParserError Ast
 parse tokens =
     case parseSum tokens of
         -- Sucesso: Consumiu tudo e sobrou apenas o EOF
         Right (ast, [TokEOF])  -> Right ast
         -- Erro: Sobraram tokens extras
         Right (_, extraTokens) ->
-            Left ("[Erro sintático] Tokens extras encontrados: " ++ show extraTokens)
+            Left (ExtraTokens extraTokens)
+
         -- Erro propagado
         Left err -> Left err
 
@@ -110,7 +128,7 @@ parsePrimary (TokLParen : rest) =
         Right (ast, TokRParen : nextRest) ->
             Right (ast, nextRest)
         Right (_, nextRest) ->
-            Left ("[Erro sintático] Esperava-se um ')' mas encontrou: " ++ show nextRest)
+            Left (MissingToken "')'" nextRest)
 
 parsePrimary tokens =
-    Left ("[Erro sintático] Esperava-se um número ou '(' em: " ++ show tokens)
+    Left (UnexpectedToken "um número ou '('" tokens)

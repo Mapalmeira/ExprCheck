@@ -111,7 +111,7 @@ printAST' prefix isLast expr = do
 printHeader :: IO ()
 printHeader = do
   putStrLn "\n========================================================"
-  putStrLn "=== Bem-vindo ao validador de expressões matemáticas ==="
+  putStrLn "=== Bem-vindo ao ExprCheck ==="
   putStrLn "========================================================"
 
 prompt :: String -> IO String

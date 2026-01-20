@@ -60,7 +60,9 @@ Pow'    -> ^ Pow | ε
 Unary   -> + Primary | - Primary | Primary
 Primary -> INT | REAL | '(' Sum ')'
 ```
+
 ---
+
 ## 3. Test Matrix
 
 The table below presents some of the test cases used to validate the robustness of the analyzer. Note that the parser supports repeated unary operators (such as ++ or --), interpreting them correctly according to mathematical semantics.
@@ -76,6 +78,7 @@ The table below presents some of the test cases used to validate the robustness 
 | `1 + @`          | Rejected     | Lexical error: symbol outside the valid alphabet.         |
 
 ---
+
 ## 4. Execution Instructions
 
 This project uses the Cabal ecosystem for dependency management, compilation, and test execution.
@@ -90,12 +93,15 @@ Git: Required to clone the repository.
 
 ### Installation
 
-Clone the repository:
+1. Clone the repository:
+
 ```bash
-git clone https://github.com/Mapalmeira/ExprCheck.git
+git clone https://github.com/Mapalmeira/ExprCheck.git ExprCheck/
 ```
-Navigate to the project directory:
-```
+
+2. Navigate to the project directory:
+
+```bash
 cd ExprCheck
 ```
 
@@ -105,12 +111,14 @@ The project provides two execution modes:
 
 **1. Interactive Mode (CLI)**
 To manually validate expressions using the interactive menu:
+
 ```bash
 cabal run
 ```
 
 **2. Test Mode**
 To run the automated tests included in the project:
+
 ```bash
 cabal test
 ```
@@ -118,8 +126,8 @@ cabal test
 ---
 ## 5. Authors
 
-* [Andrey Kaua Aragao Feitosa](https://github.com/Andrey-Kaua)
-* [Erik Alves Almeida](https://github.com/ErikAlvesAlmeida)
-* [Isadora Beatriz Lucena de Medeiros](https://github.com/isadoralucena)
-* [João Henrique Silva Lima](https://github.com/limajoaohs)
-* [Matheus Palmeira Leite Rocha](https://github.com/Mapalmeira)
+- [Andrey Kaua Aragao Feitosa](https://github.com/Andrey-Kaua)
+- [Erik Alves Almeida](https://github.com/ErikAlvesAlmeida)
+- [Isadora Beatriz Lucena de Medeiros](https://github.com/isadoralucena)
+- [João Henrique Silva Lima](https://github.com/limajoaohs)
+- [Matheus Palmeira Leite Rocha](https://github.com/Mapalmeira)

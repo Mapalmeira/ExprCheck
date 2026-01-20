@@ -63,9 +63,11 @@ Pow'    -> ^ Pow | ε
 Unary   -> + Primary | - Primary | Primary
 Primary -> INT | REAL | '(' Sum ')'
 ```
+
 ---
 
 ## 3. Matriz de Testes
+
 A tabela a seguir apresenta alguns dos casos de teste utilizados para validar a robustez do analisador. Note que o parser suporta operadores unários repetidos (como ++ ou --), interpretando-os corretamente de acordo com a semântica matemática.
 
 | Expressão de Entrada | Resultado  | Justificativa Técnica                                  |
@@ -88,20 +90,22 @@ Este projeto utiliza o ecossistema **Cabal** para gerenciamento de dependências
 
 Antes de começar, certifique-se de ter o ambiente Haskell configurado:
 
-* **[GHCup](https://www.haskell.org/ghcup/):** Instalador recomendado para o compilador GHC e a ferramenta Cabal.
-* **Git:** Para clonar o repositório.
+- **[GHCup](https://www.haskell.org/ghcup/):** Instalador recomendado para o compilador GHC e a ferramenta Cabal.
+- **Git:** Para clonar o repositório.
 
 ### Instalação
 
-1.  Abra o terminal e clone o repositório:
-    ```bash
-    git clone [https://github.com/Mapalmeira/ExprCheck.git](https://github.com/Mapalmeira/ExprCheck.git)
-    ```
+1. Abra o terminal e clone o repositório:
 
-2.  Acesse o diretório do projeto:
-    ```bash
-    cd ExprCheck
-    ```
+```bash
+git clone https://github.com/Mapalmeira/ExprCheck.git ExprCheck/
+```
+
+2. Acesse o diretório do projeto:
+
+```bash
+cd ExprCheck
+```
 
 ### Utilização
 
@@ -109,21 +113,24 @@ O projeto oferece dois modos de execução:
 
 **1. Modo Interativo (CLI)**
 Para validar expressões manualmente através do menu interativo:
+
 ```bash
 cabal run
 ```
 
 **2.Modo de testes**
 Para realizar os testes presentes no arquivo
+
 ```bash
 cabal test
 ```
   
 ---
+
 ## 5. Autores
 
-* [Andrey Kaua Aragao Feitosa](https://github.com/Andrey-Kaua)
-* [Erik Alves Almeida](https://github.com/ErikAlvesAlmeida)
-* [Isadora Beatriz Lucena de Medeiros](https://github.com/isadoralucena)
-* [João Henrique Silva Lima](https://github.com/limajoaohs)
-* [Matheus Palmeira Leite Rocha](https://github.com/Mapalmeira)
+- [Andrey Kaua Aragao Feitosa](https://github.com/Andrey-Kaua)
+- [Erik Alves Almeida](https://github.com/ErikAlvesAlmeida)
+- [Isadora Beatriz Lucena de Medeiros](https://github.com/isadoralucena)
+- [João Henrique Silva Lima](https://github.com/limajoaohs)
+- [Matheus Palmeira Leite Rocha](https://github.com/Mapalmeira)

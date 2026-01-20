@@ -47,22 +47,22 @@ runSyntactic expr =
     Left err -> printLexicalError err
     Right tokens -> do
       putStrLn "\n[Validação Léxica]"
-      putStrLn "  - Tokens"
+      putStrLn "VÁLIDO - Tokens"
       printTokensTree "    " tokens
 
       putStrLn "\n[Validação Sintática]"
       case parse tokens of
         Left err -> do
-          putStrLn "  - Erro Sintático"
+          putStrLn "INVÁLIDO - Erro Sintático"
           putStrLn $ "    " ++ show err
         Right ast -> do
-          putStrLn "  - AST"
+          putStrLn "VÁLIDO - AST"
           printAST "    " ast
 
 printLexicalError :: LexerError -> IO ()
 printLexicalError err = do
   putStrLn "\n[Validação Léxica]"
-  putStrLn "  - Erro Léxico"
+  putStrLn "INVÁLIDO - Erro Léxico"
   putStrLn $ "    " ++ show err
 
 printTokensTree :: String -> [Token] -> IO ()
